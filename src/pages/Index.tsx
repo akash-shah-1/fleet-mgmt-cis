@@ -31,16 +31,24 @@ export default function Index() {
   const onTrip = buses.filter((b) => b.status === "moving");
 
   return (
-    <div className="p-4 md:p-6 space-y-6">
-      <PageHeader
-        title="Fleet Overview"
-        subtitle="Live status across 25 buses · Updated just now"
-        actions={
-          <Button asChild size="sm">
-            <Link to="/map">Open live map <ArrowRight className="ml-1 h-4 w-4" /></Link>
-          </Button>
-        }
-      />
+    <div className="relative">
+      <div className="absolute inset-x-0 top-0 h-64 gradient-mesh pointer-events-none -z-0" />
+      <div className="relative p-4 md:p-6 space-y-6">
+        <PageHeader
+          eyebrow="Dashboard"
+          title="Fleet Overview"
+          subtitle={
+            <span className="inline-flex items-center gap-2">
+              <span className="inline-flex h-2 w-2 rounded-full bg-success animate-pulse" />
+              Live · 25 buses tracked · Updated just now
+            </span> as any
+          }
+          actions={
+            <Button asChild size="sm" className="shadow-glow">
+              <Link to="/map">Open live map <ArrowRight className="ml-1 h-4 w-4" /></Link>
+            </Button>
+          }
+        />
 
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3">
         <StatCard label="Total Buses" value={fleetStats.total} icon={Bus} hint={`${fleetStats.moving} on trip`} tone="info" />
@@ -144,6 +152,7 @@ export default function Index() {
         <StatCard label="Fuel consumed" value={`${fleetStats.fuelToday} L`} icon={Fuel} />
         <StatCard label="Harsh events" value={fleetStats.harshToday} icon={Gauge} tone="warning" />
         <StatCard label="Docs expiring" value={fleetStats.docsExpiringMonth} icon={AlertTriangle} tone="destructive" hint="this month" />
+      </div>
       </div>
     </div>
   );
