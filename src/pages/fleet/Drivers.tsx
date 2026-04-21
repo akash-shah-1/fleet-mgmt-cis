@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "@/components/fleet/PageHeader";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -17,6 +17,7 @@ function scoreColor(s: number) {
 
 export default function Drivers() {
   const [q, setQ] = useState("");
+  const navigate = useNavigate();
   const rows = useMemo(() => drivers.filter((d) =>
     d.name.toLowerCase().includes(q.toLowerCase()) || d.license.toLowerCase().includes(q.toLowerCase())
   ), [q]);
@@ -47,9 +48,19 @@ export default function Drivers() {
           </TableHeader>
           <TableBody>
             {rows.map((d) => (
-              <TableRow key={d.id}>
+              <TableRow
+                key={d.id}
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => navigate(`/drivers/${d.id}`)}
+              >
                 <TableCell>
-                  <Link to={`/drivers/${d.id}`} className="font-medium hover:text-primary">{d.name}</Link>
+                  <Link
+                    to={`/drivers/${d.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="font-medium hover:text-primary"
+                  >
+                    {d.name}
+                  </Link>
                   <div className="text-xs text-muted-foreground">{d.phone}</div>
                 </TableCell>
                 <TableCell className="num">{d.license}</TableCell>
