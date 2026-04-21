@@ -20,23 +20,24 @@ const colorByStatus: Record<string, string> = {
 export default function MapView({ height = "h-[520px]", selectedId, onSelect, filter, compact }: Props) {
   const list = buses.filter((b) => (filter ? filter(b) : true));
   return (
-    <div className={cn("relative w-full overflow-hidden rounded-xl border bg-[hsl(210_40%_94%)]", height)}>
+    <div className={cn("relative w-full overflow-hidden rounded-xl border shadow-card bg-gradient-to-br from-[hsl(210_40%_96%)] via-[hsl(210_40%_94%)] to-[hsl(199_60%_92%)]", height)}>
       {/* Faux street grid */}
-      <svg className="absolute inset-0 h-full w-full opacity-50" xmlns="http://www.w3.org/2000/svg">
+      <svg className="absolute inset-0 h-full w-full opacity-60" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
             <path d="M 48 0 L 0 0 0 48" fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
           </pattern>
           <pattern id="grid-lg" width="240" height="240" patternUnits="userSpaceOnUse">
-            <path d="M 240 0 L 0 0 0 240" fill="none" stroke="hsl(var(--border))" strokeWidth="1.5" />
+            <path d="M 240 0 L 0 0 0 240" fill="none" stroke="hsl(var(--primary) / 0.15)" strokeWidth="1.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#grid)" />
         <rect width="100%" height="100%" fill="url(#grid-lg)" />
         {/* faux roads */}
-        <path d="M 0 220 Q 300 180 600 260 T 1200 240" stroke="hsl(var(--muted-foreground))" strokeOpacity="0.25" strokeWidth="6" fill="none" />
-        <path d="M 200 0 Q 240 200 360 380 T 520 720" stroke="hsl(var(--muted-foreground))" strokeOpacity="0.25" strokeWidth="6" fill="none" />
-        <path d="M 800 0 L 760 800" stroke="hsl(var(--muted-foreground))" strokeOpacity="0.2" strokeWidth="5" fill="none" />
+        <path d="M 0 220 Q 300 180 600 260 T 1200 240" stroke="hsl(var(--foreground))" strokeOpacity="0.18" strokeWidth="8" fill="none" strokeLinecap="round" />
+        <path d="M 200 0 Q 240 200 360 380 T 520 720" stroke="hsl(var(--foreground))" strokeOpacity="0.18" strokeWidth="8" fill="none" strokeLinecap="round" />
+        <path d="M 800 0 L 760 800" stroke="hsl(var(--foreground))" strokeOpacity="0.15" strokeWidth="7" fill="none" strokeLinecap="round" />
+        <path d="M 0 480 Q 400 460 800 520 T 1200 500" stroke="hsl(var(--foreground))" strokeOpacity="0.12" strokeWidth="5" fill="none" strokeLinecap="round" />
       </svg>
 
       {/* Bus markers */}
@@ -48,9 +49,9 @@ export default function MapView({ height = "h-[520px]", selectedId, onSelect, fi
             onClick={() => onSelect?.(b)}
             style={{ left: `${b.pos.x}%`, top: `${b.pos.y}%` }}
             className={cn(
-              "absolute -translate-x-1/2 -translate-y-1/2 group flex items-center gap-1.5 rounded-full border-2 shadow-elev transition-transform",
+              "absolute -translate-x-1/2 -translate-y-1/2 group flex items-center gap-1.5 rounded-full border-2 border-white shadow-elev transition-all",
               colorByStatus[b.status],
-              active ? "scale-110 ring-4 ring-primary/30" : "hover:scale-105",
+              active ? "scale-125 ring-4 ring-primary/40 z-10" : "hover:scale-110 hover:z-10",
               compact ? "p-1" : "px-2 py-1",
             )}
           >
@@ -61,15 +62,15 @@ export default function MapView({ height = "h-[520px]", selectedId, onSelect, fi
       })}
 
       {/* Legend */}
-      <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 rounded-lg bg-card/95 backdrop-blur px-3 py-2 text-xs shadow-elev border">
+      <div className="absolute bottom-3 left-3 flex flex-wrap gap-3 rounded-xl bg-card/95 backdrop-blur-md px-3 py-2 text-xs shadow-elev border">
         {(["moving","idle","parked","offline"] as const).map((s) => (
-          <span key={s} className="inline-flex items-center gap-1.5 capitalize">
+          <span key={s} className="inline-flex items-center gap-1.5 capitalize font-medium">
             <span className={cn("h-2 w-2 rounded-full", `bg-status-${s}`)} />
             {s}
           </span>
         ))}
       </div>
-      <div className="absolute top-3 right-3 rounded-lg bg-card/95 backdrop-blur px-3 py-1.5 text-xs shadow-elev border">
+      <div className="absolute top-3 right-3 rounded-xl bg-card/95 backdrop-blur-md px-3 py-1.5 text-xs font-semibold shadow-elev border num">
         {list.length} buses
       </div>
     </div>
