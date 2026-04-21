@@ -28,21 +28,21 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border">
-        <div className="flex items-center gap-2 px-2 py-2">
-          <div className="h-8 w-8 rounded-lg gradient-primary grid place-items-center text-primary-foreground font-bold shadow-elev">
+        <div className="flex items-center gap-2.5 px-2 py-2.5">
+          <div className="h-9 w-9 rounded-xl gradient-primary grid place-items-center text-primary-foreground font-bold shadow-glow text-[13px] tracking-tight">
             FX
           </div>
           {!collapsed && (
             <div className="leading-tight">
-              <div className="text-sm font-semibold">FleetX Console</div>
-              <div className="text-[11px] text-muted-foreground">Operator panel</div>
+              <div className="text-[13px] font-semibold tracking-tight">FleetX Console</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-[0.1em] font-medium">Operator panel</div>
             </div>
           )}
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Operations</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted-foreground/70">Operations</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -51,10 +51,10 @@ export function AppSidebar() {
                     <NavLink
                       to={item.url}
                       end={item.url === "/"}
-                      className="hover:bg-sidebar-accent/60 rounded-md"
-                      activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-medium"
+                      className="hover:bg-sidebar-accent/60 rounded-lg transition-colors text-[13px]"
+                      activeClassName="bg-sidebar-accent text-sidebar-accent-foreground font-semibold shadow-xs"
                     >
-                      <item.icon className="h-4 w-4" />
+                      <item.icon className="h-[15px] w-[15px]" />
                       {!collapsed && <span>{item.title}</span>}
                     </NavLink>
                   </SidebarMenuButton>
