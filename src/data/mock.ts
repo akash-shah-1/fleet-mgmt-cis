@@ -236,14 +236,15 @@ export const maintenance: MaintenanceItem[] = [
   ...buses.slice(0, 18).flatMap((b, i) =>
     docTypes.map((d, j) => {
       const days = ((i * 7 + j * 11) % 90) - 10;
+      const status: MaintenanceItem["status"] = days < 0 ? "overdue" : days < 7 ? "due" : days < 30 ? "soon" : "ok";
       return {
         id: `M-${b.id}-${d}`,
         busId: b.id,
         type: `${d} renewal`,
         category: "document" as const,
         dueDate: `2025-${pad(((j + 4) % 12) + 1)}-${pad(((i * 3) % 27) + 1)}`,
-        status: days < 0 ? "overdue" : days < 7 ? "due" : days < 30 ? "soon" : "ok",
-      };
+        status,
+      } as MaintenanceItem;
     })
   ),
   ...buses.slice(0, 12).map((b, i) => {
