@@ -41,7 +41,7 @@ export default function Index() {
             <span className="inline-flex items-center gap-2">
               <span className="inline-flex h-2 w-2 rounded-full bg-success animate-pulse" />
               Live · 25 buses tracked · Updated just now
-            </span> as any
+            </span>
           }
           actions={
             <Button asChild size="sm" className="shadow-glow">
