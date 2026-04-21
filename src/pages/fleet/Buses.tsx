@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageHeader from "@/components/fleet/PageHeader";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -22,6 +22,7 @@ const statusFilters: Array<{ key: BusStatus | "all"; label: string }> = [
 export default function Buses() {
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<BusStatus | "all">("all");
+  const navigate = useNavigate();
 
   const rows = useMemo(() =>
     buses.filter((b) =>
@@ -69,9 +70,19 @@ export default function Buses() {
           </TableHeader>
           <TableBody>
             {rows.map((b) => (
-              <TableRow key={b.id} className="cursor-pointer">
+              <TableRow
+                key={b.id}
+                className="cursor-pointer hover:bg-muted/50"
+                onClick={() => navigate(`/buses/${b.id}`)}
+              >
                 <TableCell className="font-medium">
-                  <Link to={`/buses/${b.id}`} className="hover:text-primary">{b.number}</Link>
+                  <Link
+                    to={`/buses/${b.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="hover:text-primary"
+                  >
+                    {b.number}
+                  </Link>
                 </TableCell>
                 <TableCell className="num">{b.registration}</TableCell>
                 <TableCell className="text-muted-foreground">{b.model} · {b.year}</TableCell>
