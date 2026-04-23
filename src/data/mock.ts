@@ -274,6 +274,60 @@ export const services: ServiceRecord[] = Array.from({ length: 24 }, (_, i) => ({
 
 export const tyrePositions = ["Front Left","Front Right","Rear Left Inner","Rear Left Outer","Rear Right Inner","Rear Right Outer"];
 
+// ============================================================
+// Staff: people authorised to board specific buses.
+// Camera onboard scans face/ID and matches against assignedBusId.
+// ============================================================
+export interface StaffMember {
+  id: string;
+  name: string;
+  employeeCode: string;
+  role: "Engineer" | "Technician" | "Supervisor" | "Cleaner" | "Helper" | "Manager";
+  department: string;
+  phone: string;
+  email: string;
+  assignedBusId: string | null;
+  shift: "Morning" | "Evening" | "Night";
+  active: boolean;
+  joinedOn: string;
+  lastSeenBus?: string;
+  lastSeenAt?: string;
+  photoSeed: number;
+}
+
+const staffNames = [
+  "Aarav Shah","Isha Menon","Riya Kapoor","Kabir Sethi","Neha Iyer",
+  "Arjun Pillai","Sneha Roy","Rohan Mathur","Priya Desai","Aditya Bose",
+  "Tanvi Rao","Vihaan Goel","Meera Pandit","Dev Khurana","Pooja Mishra",
+  "Siddharth Jha","Kriti Anand","Aryan Bhatt","Nisha Salim","Yash Tiwari",
+];
+const roles: StaffMember["role"][] = ["Engineer","Technician","Supervisor","Cleaner","Helper","Manager"];
+const departments = ["Operations","Maintenance","Quality","Logistics","Safety"];
+const shifts: StaffMember["shift"][] = ["Morning","Evening","Night"];
+
+export const staff: StaffMember[] = staffNames.map((name, i) => {
+  const assigned = i % 7 === 6 ? null : `B${pad(((i * 2) % 25) + 1, 3)}`;
+  return {
+    id: `S${pad(i + 1, 3)}`,
+    name,
+    employeeCode: `EMP-${pad(2024, 4)}-${pad(1000 + i * 17, 4)}`,
+    role: pick(roles, i),
+    department: pick(departments, i),
+    phone: `+91 97${pad((i * 11) % 100)}${pad((i * 23) % 100)}${pad((i * 37) % 100)}`,
+    email: `${name.toLowerCase().replace(/\s+/g, ".")}@fleetx.in`,
+    assignedBusId: assigned,
+    shift: pick(shifts, i),
+    active: i % 9 !== 8,
+    joinedOn: `202${2 + (i % 3)}-${pad(((i * 3) % 12) + 1)}-${pad(((i * 5) % 27) + 1)}`,
+    lastSeenBus: assigned ?? undefined,
+    lastSeenAt: assigned ? `${(i % 4) + 1}h ago` : undefined,
+    photoSeed: i + 1,
+  };
+});
+
+export function getStaff(id: string) { return staff.find((s) => s.id === id); }
+export function staffForBus(busId: string) { return staff.filter((s) => s.assignedBusId === busId); }
+
 export function tyresForBus(busId: string): Tyre[] {
   const seed = parseInt(busId.replace("B",""), 10);
   return tyrePositions.map((pos, i) => {
