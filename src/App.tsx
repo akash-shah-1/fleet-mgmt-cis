@@ -18,6 +18,7 @@ import Tyres from "./pages/fleet/Tyres";
 import Behavior from "./pages/fleet/Behavior";
 import Alerts from "./pages/fleet/Alerts";
 import Reports from "./pages/fleet/Reports";
+import Staff from "./pages/fleet/Staff";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/behavior" element={<Behavior />} />
             <Route path="/alerts" element={<Alerts />} />
             <Route path="/reports" element={<Reports />} />
+            <Route path="/staff" element={<Staff />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

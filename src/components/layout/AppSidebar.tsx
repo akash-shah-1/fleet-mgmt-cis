@@ -1,6 +1,6 @@
 import {
   LayoutDashboard, Map, Bus, Users, Route, Fuel, Wrench, Disc3,
-  Gauge, BellRing, FileBarChart,
+  Gauge, BellRing, FileBarChart, IdCard,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -13,6 +13,7 @@ const items = [
   { title: "Live Map", url: "/map", icon: Map },
   { title: "Buses", url: "/buses", icon: Bus },
   { title: "Drivers", url: "/drivers", icon: Users },
+  { title: "Staff", url: "/staff", icon: IdCard },
   { title: "Trips", url: "/trips", icon: Route },
   { title: "Fuel", url: "/fuel", icon: Fuel },
   { title: "Maintenance", url: "/maintenance", icon: Wrench },
